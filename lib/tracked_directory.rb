@@ -1,0 +1,2 @@
+class TrackedDirectory
+end
