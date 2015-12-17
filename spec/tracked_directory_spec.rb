@@ -17,11 +17,11 @@ RSpec.describe TrackedDirectory do
       expect(@dir1.ls(show_entries: :files)).to eq(["test.jpg", "test.png", "test.txt"])
     end
 
-    it "shows only subdirs" do
-      expect(@dir1.ls(show_entries: :subdirs)).to eq(["A", "B", "C"])
+    it "shows only directories" do
+      expect(@dir1.ls(show_entries: :dirs)).to eq(["A", "B", "C"])
     end
 
-    it "shows files and subdirs" do
+    it "shows files and directories" do
       expect(@dir1.ls(show_entries: :nil)).to eq(["A", "B", "C", "test.jpg", "test.png", "test.txt"])
     end
 
@@ -32,7 +32,7 @@ RSpec.describe TrackedDirectory do
     it "sorts files and subdirs in desc direction" do
       expect(@dir1.ls(sort_direction: :desc)).to eq(["test.txt", "test.png", "test.jpg", "C", "B", "A"])
     end
-
+    #доделать
     it "filters by extention" do
       expect(@dir1.ls(filter_by_extension: :txt)).to eq(["test.txt"])
     end
