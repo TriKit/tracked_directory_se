@@ -18,12 +18,20 @@ class TrackedDirectory
     # else show_entries == :dirs
     #   entries.delete_if { |i| File.file?("#{@path}/#{i}") }
     # end
-    #
+    # entries
     #
     # 2
-    entries.delete_if { |i| !File.file?("#{@path}/#{i}")} if show_entries == :files
-    entries.delete_if { |i| File.file?("#{@path}/#{i}")} if show_entries == :dirs
+    # entries.delete_if { |i| !File.file?("#{@path}/#{i}")} if show_entries == :files
+    # entries.delete_if { |i| File.file?("#{@path}/#{i}")} if show_entries == :dirs
+    # entries
+    #
+    #3
+    entries.delete_if do |i|
+      is_file = !File.file?("#{@path}/#{i}")
+      (is_file if show_entries == :files) || (!is_file if show_entries == :dirs)
+    end
     entries
+
     #один должен быть коротким
   end
 
