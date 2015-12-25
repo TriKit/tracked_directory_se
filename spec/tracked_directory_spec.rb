@@ -22,14 +22,14 @@ RSpec.describe TrackedDirectory do
     end
 
     it "shows files and directories" do
-      expect(@dir1.ls(show_entries: :nil)).to eq(["A", "B", "C", "test.jpg", "test.png", "test.txt"])
+      expect(@dir1.ls(show_entries: nil)).to eq(["A", "B", "C", "test.jpg", "test.png", "test.txt"])
     end
 
-    it "sorts files and subdirs in asc direction" do
+    it "sorts files and directories in asc direction" do
       expect(@dir1.ls(sort_direction: :asc)).to eq(["A", "B", "C", "test.jpg", "test.png", "test.txt"])
     end
 
-    it "sorts files and subdirs in desc direction" do
+    it "sorts files and directories in desc direction" do
       expect(@dir1.ls(sort_direction: :desc)).to eq(["test.txt", "test.png", "test.jpg", "C", "B", "A"])
     end
     #доделать
