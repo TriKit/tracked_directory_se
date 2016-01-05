@@ -14,15 +14,15 @@ RSpec.describe TrackedDirectory do
 
   describe "ls method" do
     it "shows only files" do
-      expect(@dir1.ls(show_entries: :files)).to eq(["test.jpg", "test.png", "test.txt"])
+      expect(@dir1.ls(filter_by_type: :files)).to eq(["test.jpg", "test.png", "test.txt"])
     end
 
     it "shows only directories" do
-      expect(@dir1.ls(show_entries: :dirs)).to eq(["A", "B", "C"])
+      expect(@dir1.ls(filter_by_type: :dirs)).to eq(["A", "B", "C"])
     end
 
     it "shows files and directories" do
-      expect(@dir1.ls(show_entries: nil)).to eq(["A", "B", "C", "test.jpg", "test.png", "test.txt"])
+      expect(@dir1.ls(filter_by_type: nil)).to eq(["A", "B", "C", "test.jpg", "test.png", "test.txt"])
     end
 
     it "sorts files and directories in asc direction" do
