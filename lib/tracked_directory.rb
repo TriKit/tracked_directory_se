@@ -11,9 +11,24 @@ class TrackedDirectory
     entries.delete(".")
     entries.delete("..")
 
-    filter_entries_by_type(entries, filter_by_type)
-    sort(entries, sort_direction)
+    entries = filter_entries_by_type(entries, filter_by_type)
+    entries = sort(entries, sort_direction)
     filter(entries, filter_by_extension, filter_by_name)
+  end
+
+  def diff(compared_dir)
+    difference = Hash.new
+    dir_1 = self.ls
+    dir_2 = compared_dir.ls
+
+    (dir_2 - dir_1).each do |i|
+      difference[i] = "added"
+    end
+
+    (dir_1 - dir_2).each do |i|
+      difference[i] = "deleted"
+    end
+    difference
   end
 
   private
@@ -37,6 +52,7 @@ class TrackedDirectory
         entry = (File.file?("#{@path}/#{i}") ? :files : :dirs)
         entry != filter_by_type
       end if [:dirs, :files].include?(filter_by_type)
+      entries
     end
 
     def filter(entries, extension, name)
