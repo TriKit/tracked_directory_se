@@ -1,18 +1,20 @@
 class TrackedDirectory
 
-  attr_reader :path
+  attr_reader :entries, :path
 
   def initialize(path)
     @path = path
+    self.ls
   end
 
   def ls(filter_by_type: nil, filter_by_extension: nil, filter_by_name: nil, sort_direction: :asc)
-    entries = Dir.entries(@path)
-    entries.delete(".")
-    entries.delete("..")
+    @timestamp = Time.now
+    @entries = Dir.entries(@path)
+    @entries.delete(".")
+    @entries.delete("..")
 
-    entries = filter_entries_by_type(entries, filter_by_type)
-    entries = sort(entries, sort_direction)
+    @entries = filter_entries_by_type(@entries, filter_by_type)
+    @entries = sort(entries, sort_direction)
     filter(entries, filter_by_extension, filter_by_name)
   end
 
@@ -28,9 +30,21 @@ class TrackedDirectory
     (dir_1 - dir_2).each do |i|
       difference[i] = "deleted"
     end
+
+    # (dir_1 & dir_2).each do |i|
+    #   mtime = File.mtime("#{.path}/{i}")
+    #   if mtime > @timestamp
+    #     difference[i] = "changed"
+    #   end
+    # end
     difference
   end
 
+  def save_entries
+    File.open("#{@path}/entries.txt", "w+") do |f|
+      @entries.each { |element| f.puts(element) }
+    end
+  end
   private
 
     def filter_entries_by_type(entries, filter_by_type=nil)
@@ -48,11 +62,11 @@ class TrackedDirectory
       # entries
 
       # 3 вариант
-      entries.delete_if do |i|
+      @entries.delete_if do |i|
         entry = (File.file?("#{@path}/#{i}") ? :files : :dirs)
         entry != filter_by_type
       end if [:dirs, :files].include?(filter_by_type)
-      entries
+      @entries
     end
 
     def filter(entries, extension, name)
