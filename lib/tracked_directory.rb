@@ -50,6 +50,10 @@ class TrackedDirectory
     @entries = File.readlines("#{@path}/entries.txt").map { |file| file.chomp }
   end
 
+  def changed?(compared_dir)
+    self.entries != compared_dir.entries
+  end
+
   private
 
     def filter_entries_by_type(entries, filter_by_type=nil)
