@@ -45,6 +45,11 @@ class TrackedDirectory
       @entries.each { |element| f.puts(element) }
     end
   end
+
+  def load_entries
+    @entries = File.readlines("#{@path}/entries.txt").map { |file| file.chomp }
+  end
+
   private
 
     def filter_entries_by_type(entries, filter_by_type=nil)
