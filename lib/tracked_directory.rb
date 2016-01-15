@@ -31,12 +31,7 @@ class TrackedDirectory
       difference[i] = "deleted"
     end
 
-    # (dir_1 & dir_2).each do |i|
-    #   mtime = File.mtime("#{.path}/{i}")
-    #   if mtime > @timestamp
-    #     difference[i] = "changed"
-    #   end
-    # end
+    #show_changed_files
     difference
   end
 
