@@ -1,15 +1,30 @@
 require 'tracked_directory'
+require 'fileutils'
 
 RSpec.describe TrackedDirectory do
 
-  before(:each) do
-    @dir1 = TrackedDirectory.new("#{Dir.pwd}/spec/test/test_dir_1")
-    @dir2 = TrackedDirectory.new("#{Dir.pwd}/spec/test/test_dir_2")
-  end
+  before(:all) do
+    test_dir_path = File.dirname(__FILE__) + "/test"
+    FileUtils.rm_rf "#{test_dir_path}"
+      Dir.mkdir(test_dir_path)
+      Dir.mkdir("#{test_dir_path}/test_dir_1")
+        Dir.mkdir("#{test_dir_path}/test_dir_1/A")
+        Dir.mkdir("#{test_dir_path}/test_dir_1/B")
+        Dir.mkdir("#{test_dir_path}/test_dir_1/C")
+        File.new("#{test_dir_path}/test_dir_1/test.jpg", "w")
+        File.new("#{test_dir_path}/test_dir_1/test.png", "w")
+        File.new("#{test_dir_path}/test_dir_1/test.txt", "w")
 
-  after(:each) do
-    File.delete("#{@dir1.path}/entries.txt") if File.exist?("#{@dir1.path}/entries.txt")
-    File.delete("#{@dir2.path}/entries.txt") if File.exist?("#{@dir2.path}/entries.txt")
+      Dir.mkdir("#{test_dir_path}/test_dir_2")
+        Dir.mkdir("#{test_dir_path}/test_dir_2/A")
+        Dir.mkdir("#{test_dir_path}/test_dir_2/B")
+        Dir.mkdir("#{test_dir_path}/test_dir_2/F")
+        File.new("#{test_dir_path}/test_dir_2/test.rb", "w")
+        File.new("#{test_dir_path}/test_dir_2/test.png", "w")
+        File.new("#{test_dir_path}/test_dir_2/test.txt", "w")
+
+    @dir1 = TrackedDirectory.new("#{test_dir_path}/test_dir_1")
+    @dir2 = TrackedDirectory.new("#{test_dir_path}/test_dir_2")
   end
 
   describe "ls method" do
